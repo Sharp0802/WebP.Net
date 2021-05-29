@@ -1,9 +1,9 @@
-﻿#WebP.Net
-##What is this?
+﻿# WebP.Net
+## What is this?
 This library provides a simple encoder and decoder for webp.
 
 The version of libwebp used is 1.1.0
-##How to use?
+## How to use?
 ```c#
 using System.Drawing;
 using WebP.Net;
