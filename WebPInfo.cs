@@ -21,8 +21,7 @@ namespace WebP.Net
 				if (status is not Vp8StatusCode.Ok)
 					throw new ExternalException(status.ToString());
 
-				return new WebPInfo(
-				                    features.Width,
+				return new WebPInfo(features.Width,
 				                    features.Height,
 				                    features.Has_alpha is 1,
 				                    features.Has_animation is 1);

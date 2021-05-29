@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Security;
 using WebP.Net.Enums;
 using WebP.Net.Helpers;
@@ -14,9 +13,6 @@ namespace WebP.Net.Natives
 	public static class Native
 	{
 		private const int WebpDecoderAbiVersion = 0x0208;
-
-		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		public delegate int WebPMemoryWrite([In] IntPtr data, UIntPtr dataSize, ref WebPPicture pic);
 
 		public static int WebPConfigInit(ref WebPConfig config, WebPPreset preset, float quality)
 		{

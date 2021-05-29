@@ -23,10 +23,7 @@ namespace WebP.Net
 				bmp = info.HasAlpha
 					? new Bitmap(info.Width, info.Height, PixelFormat.Format32bppArgb)
 					: new Bitmap(info.Width, info.Height, PixelFormat.Format24bppRgb);
-				data = bmp.LockBits(
-				                    new Rectangle(0, 0, info.Width, info.Height),
-				                    ImageLockMode.WriteOnly,
-				                    bmp.PixelFormat);
+				data = bmp.LockBits(new Rectangle(0, 0, info.Width, info.Height), ImageLockMode.WriteOnly, bmp.PixelFormat);
 
 				var length  = data.Stride * info.Height;
 				var ptrData = handle.AddrOfPinnedObject();
