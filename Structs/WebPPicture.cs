@@ -9,33 +9,33 @@ namespace WebP.Net.Structs
 	 SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 	public struct WebPPicture : IDisposable
 	{
-		public int use_argb;
-		public uint colorspace;
-		public int width;
-		public int height;
+		public int    use_argb;
+		public uint   colorspace;
+		public int    width;
+		public int    height;
 		public IntPtr y;
 		public IntPtr u;
 		public IntPtr v;
 		public IntPtr a;
-		public int y_stride;
-		public int uv_stride;
-		public int a_stride;
+		public int    y_stride;
+		public int    uv_stride;
+		public int    a_stride;
 
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 2, ArraySubType = UnmanagedType.U4)]
 		private readonly uint[] pad1;
 
 		public IntPtr argb;
-		public int argb_stride;
+		public int    argb_stride;
 
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 3, ArraySubType = UnmanagedType.U4)]
 		private readonly uint[] pad2;
 
 		public IntPtr writer;
 		public IntPtr custom_ptr;
-		public int extra_info_type;
+		public int    extra_info_type;
 		public IntPtr extra_info;
 		public IntPtr stats;
-		public uint error_code;
+		public uint   error_code;
 		public IntPtr progress_hook;
 		public IntPtr user_data;
 
@@ -48,6 +48,8 @@ namespace WebP.Net.Structs
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 2, ArraySubType = UnmanagedType.U4)]
 		private readonly uint[] pad4;
 
-		public void Dispose() {}
+		public void Dispose()
+		{
+		}
 	}
 }

@@ -16,16 +16,16 @@ namespace WebP.Net
 			try
 			{
 				var features = new WebPBitstreamFeatures();
-				var status = Native.WebPGetFeatures(handle.AddrOfPinnedObject(), webP.Length, ref features);
+				var status   = Native.WebPGetFeatures(handle.AddrOfPinnedObject(), webP.Length, ref features);
 
 				if (status is not Vp8StatusCode.Ok)
 					throw new ExternalException(status.ToString());
 
 				return new WebPInfo(
-					features.Width,
-					features.Height,
-					features.Has_alpha is 1,
-					features.Has_animation is 1);
+				                    features.Width,
+				                    features.Height,
+				                    features.Has_alpha is 1,
+				                    features.Has_animation is 1);
 			}
 			catch (Exception ex)
 			{
@@ -37,18 +37,18 @@ namespace WebP.Net
 					handle.Free();
 			}
 		}
-		
+
 		public WebPInfo(int width, int height, bool hasAlpha, bool isAnimated)
 		{
-			Width = width;
-			Height = height;
-			HasAlpha = hasAlpha;
+			Width      = width;
+			Height     = height;
+			HasAlpha   = hasAlpha;
 			IsAnimated = isAnimated;
 		}
 
-		public int Width { get; }
-		public int Height { get; }
-		public bool HasAlpha { get; }
+		public int  Width      { get; }
+		public int  Height     { get; }
+		public bool HasAlpha   { get; }
 		public bool IsAnimated { get; }
 	}
 }

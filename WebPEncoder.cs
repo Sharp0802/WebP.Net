@@ -17,12 +17,12 @@ namespace WebP.Net
 			return EncodeBase(image, data =>
 			{
 				var size = Native.WebPEncodeBgra(
-					data.Scan0,
-					data.Width,
-					data.Height,
-					data.Stride,
-					quality,
-					out var ptr);
+				                                 data.Scan0,
+				                                 data.Width,
+				                                 data.Height,
+				                                 data.Stride,
+				                                 quality,
+				                                 out var ptr);
 				if (size is 0)
 					throw ThrowHelper.CannotEncodeByUnknown();
 
@@ -35,11 +35,11 @@ namespace WebP.Net
 			return EncodeBase(image, data =>
 			{
 				var size = Native.WebPEncodeLosslessBgra(
-					data.Scan0,
-					data.Width,
-					data.Height,
-					data.Stride,
-					out var ptr);
+				                                         data.Scan0,
+				                                         data.Width,
+				                                         data.Height,
+				                                         data.Stride,
+				                                         out var ptr);
 				if (size is 0)
 					throw ThrowHelper.CannotEncodeByUnknown();
 
@@ -64,9 +64,9 @@ namespace WebP.Net
 			static BitmapData LockBitsAsReadonly(Bitmap bmp)
 			{
 				return bmp.LockBits(
-					new Rectangle(0, 0, bmp.Width, bmp.Height),
-					ImageLockMode.ReadOnly,
-					bmp.PixelFormat);
+				                    new Rectangle(0, 0, bmp.Width, bmp.Height),
+				                    ImageLockMode.ReadOnly,
+				                    bmp.PixelFormat);
 			}
 
 			static byte[] PointerToBytes(IntPtr ptr, int size)
@@ -91,8 +91,8 @@ namespace WebP.Net
 			using var bmp = ConvertFormat(image, PixelFormat.Format32bppArgb);
 
 			var data = default(BitmapData);
-			var ptr = IntPtr.Zero;
-			
+			var ptr  = IntPtr.Zero;
+
 			try
 			{
 				data = LockBitsAsReadonly(bmp);

@@ -11,8 +11,8 @@ namespace WebP.Net
 	{
 		public static Bitmap Decode(byte[] webP)
 		{
-			var bmp = default(Bitmap);
-			var data = default(BitmapData);
+			var bmp    = default(Bitmap);
+			var data   = default(BitmapData);
 			var handle = GCHandle.Alloc(webP, GCHandleType.Pinned);
 			int size;
 
@@ -24,11 +24,11 @@ namespace WebP.Net
 					? new Bitmap(info.Width, info.Height, PixelFormat.Format32bppArgb)
 					: new Bitmap(info.Width, info.Height, PixelFormat.Format24bppRgb);
 				data = bmp.LockBits(
-					new Rectangle(0, 0, info.Width, info.Height),
-					ImageLockMode.WriteOnly,
-					bmp.PixelFormat);
+				                    new Rectangle(0, 0, info.Width, info.Height),
+				                    ImageLockMode.WriteOnly,
+				                    bmp.PixelFormat);
 
-				var length = data.Stride * info.Height;
+				var length  = data.Stride * info.Height;
 				var ptrData = handle.AddrOfPinnedObject();
 				size = bmp.PixelFormat is PixelFormat.Format24bppRgb
 					? Native.WebPDecodeBgrInto(ptrData, webP.Length, data.Scan0, length, data.Stride)
