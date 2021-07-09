@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using WebP.Net.Helpers;
 using WebP.Net.Natives;
 using WebP.Net.Natives.Enums;
-using WebP.Net.Structs;
+using WebP.Net.Natives.Structs;
 
 namespace WebP.Net
 {

@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-namespace WebP.Net.Structs
+namespace WebP.Net.Natives.Structs
 {
 	[StructLayout(LayoutKind.Sequential),
 	 SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global"),

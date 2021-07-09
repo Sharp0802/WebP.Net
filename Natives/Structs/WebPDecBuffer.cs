@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using WebP.Net.Natives.Enums;
 
-namespace WebP.Net.Structs
+namespace WebP.Net.Natives.Structs
 {
 	[StructLayout(LayoutKind.Sequential),
 	 SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global"),

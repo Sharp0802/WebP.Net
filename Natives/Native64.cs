@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Security;
 using WebP.Net.Natives.Enums;
-using WebP.Net.Structs;
+using WebP.Net.Natives.Structs;
 
 namespace WebP.Net.Natives
 {
