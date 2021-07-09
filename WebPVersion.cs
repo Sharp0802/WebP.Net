@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace WebP.Net
 {
@@ -11,8 +12,13 @@ namespace WebP.Net
 			Revision = revision;
 		}
 
-		public uint Major    { get; }
-		public uint Minor    { get; }
+		[property: SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+		public uint Major { get; }
+
+		[property: SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+		public uint Minor { get; }
+
+		[property: SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 		public uint Revision { get; }
 
 		public override string ToString()
