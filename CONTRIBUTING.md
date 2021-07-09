@@ -1,5 +1,7 @@
 ﻿# Contributing guidelines
+
 ## Code style
+
 By default, 
 [.editorconfig](./.editorconfig) 
 specifies all the code styles to follow.
@@ -22,6 +24,7 @@ In case of unavoidable circumstances, it is okay to suppress warnings
 through SuppressMessageAttribute.
 
 ## Assembly versioning
+
 In [Properties/AssemblyInfo.cs](./Properties/AssemblyInfo.cs)
 , you can find the code that defines assembly version.
 ```c#
@@ -42,6 +45,7 @@ rules:
 4. Build number and revision are automatically managed by wildcard(*)
 
 ## Library version
+
 **Use the most recent stable version** unless there are any vulnerabilities.
 
 If a vulnerability is found in the external libraries, you should send a
