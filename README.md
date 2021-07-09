@@ -1,8 +1,13 @@
 ﻿# WebP.Net
+
 ## What is this?
+
 This library provides a simple encoder and decoder for webp.
+
 ## How to use?
+
 ### Encode / Decode
+
 ```c#
 using System.Drawing;
 using WebP.Net;
@@ -20,7 +25,9 @@ static Bitmap DecodeWebP(byte[] webP)
     return WebPDecoder.Decode(bytes);
 }
 ```
+
 ### Get info
+
 ```c#
 using WebP.Net;
 
@@ -29,7 +36,9 @@ static WebPInfo GetInfo(byte[] webP)
     return WebPInfo.GetFrom(webP);
 }
 ```
+
 ### Get version
+
 ```c#
 using WebP.Net;
 
