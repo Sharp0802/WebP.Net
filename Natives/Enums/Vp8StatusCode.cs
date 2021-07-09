@@ -1,4 +1,4 @@
-﻿namespace WebP.Net.Enums
+﻿namespace WebP.Net.Natives.Enums
 {
 	public enum Vp8StatusCode
 	{

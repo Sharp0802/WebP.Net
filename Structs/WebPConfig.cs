@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using WebP.Net.Enums;
+using WebP.Net.Natives.Enums;
 
 namespace WebP.Net.Structs
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using WebP.Net.Enums;
 using WebP.Net.Helpers;
 using WebP.Net.Natives;
+using WebP.Net.Natives.Enums;
 using WebP.Net.Structs;
 
 namespace WebP.Net
