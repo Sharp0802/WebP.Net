@@ -2,7 +2,7 @@
 
 namespace WebP.Net
 {
-	public struct WebPVersion
+	public readonly struct WebPVersion
 	{
 		public WebPVersion(uint major, uint minor, uint revision)
 		{
