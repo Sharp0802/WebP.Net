@@ -17,16 +17,17 @@
 
     <!-- Packaging -->
     <PropertyGroup>
-        <PackageId>WebP.Net</PackageId>
+        <PackageId>WebP_Net</PackageId>
         <Authors>Sharp0802</Authors>
         <Description>WebP encoder/decoder for .net standard 2.1</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/Sharp0802/WebP.Net</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Sharp0802/WebP.Net.git</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
         <PackageTags>WebP</PackageTags>
     </PropertyGroup>
     <ItemGroup>
-        <Content Include="runtimes\**" PackagePath="runtimes"/>
+        <Content Include="runtimes\**" PackagePath="runtimes" />
     </ItemGroup>
     
     <ItemGroup>
