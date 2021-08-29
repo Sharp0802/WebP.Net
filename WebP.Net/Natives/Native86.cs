@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using WebP.Net.Natives.Enums;
@@ -9,7 +9,7 @@ namespace WebP.Net.Natives
 	[SuppressUnmanagedCodeSecurity]
 	public static class Native86
 	{
-		private const string DllPath = "libwebp_x86.dll";
+		private const string DllPath = "libwebp.x86.dll";
 
 		[DllImport(DllPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPConfigInitInternal")]
 		public static extern int WebPConfigInitInternal_x86(ref WebPConfig config, WebPPreset preset, float quality, int webpDecoderAbiVersion);
