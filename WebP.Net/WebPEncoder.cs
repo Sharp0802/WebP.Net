@@ -9,6 +9,7 @@ namespace WebP.Net
 {
 	public static class WebPEncoder
 	{
+		[method: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
 		public static byte[] EncodeLossy(Bitmap image, float quality)
 		{
 			if (quality is < 0f or > 100f)
@@ -24,6 +25,7 @@ namespace WebP.Net
 			});
 		}
 
+		[method: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
 		public static byte[] EncodeLossless(Bitmap image)
 		{
 			return EncodeBase(image, data =>
@@ -36,8 +38,10 @@ namespace WebP.Net
 			});
 		}
 
+		[field: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
 		internal const int WebpMaxDimension = 16383;
 
+		[method: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
 		private static byte[] EncodeBase(Image image, Func<BitmapData, (IntPtr Ptr, int Size)> encoder)
 		{
 			static void ValidateImage(Image image)
