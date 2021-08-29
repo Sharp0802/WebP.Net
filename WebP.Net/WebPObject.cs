@@ -99,7 +99,7 @@ namespace WebP.Net
 		private delegate int DecodeInto(IntPtr ptr, int size, IntPtr output, int outputSize, int outputStride);
 		
 		[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Bitmap Decode(IntPtr pointer, int size)
+		private static Bitmap Decode(IntPtr pointer, int size)
 		{
 			Bitmap     bmp    = null;
 			BitmapData data   = null;
@@ -128,6 +128,10 @@ namespace WebP.Net
 
 			return bmp;
 		}
+
+		public abstract WebPObject Create(byte[] webp);
+
+		public abstract WebPObject Create(Image image);
 
 		public void Dispose()
 		{
