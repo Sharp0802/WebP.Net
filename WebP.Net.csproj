@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Library</OutputType>
@@ -31,12 +31,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="libwebp.x64.dll">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-        <Content Include="libwebp.x86.dll">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+        <EmbeddedResource Include="libwebp.x64.dll"/>
+        <EmbeddedResource Include="libwebp.x86.dll"/>
     </ItemGroup>
 
     <ItemGroup>
