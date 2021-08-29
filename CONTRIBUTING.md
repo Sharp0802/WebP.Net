@@ -1,4 +1,4 @@
-﻿# Contributing guidelines
+# Contributing guidelines
 
 ## Code style
 
@@ -25,13 +25,12 @@ through SuppressMessageAttribute.
 
 ## Assembly versioning
 
-In [Properties/AssemblyInfo.cs](./Properties/AssemblyInfo.cs)
+In [./WebP.Net.csproj](./WebP.Net.csproj)
 , you can find the code that defines assembly version.
-```c#
-[assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyFileVersion("1.0.*")]
+```xml
+<AssemblyVersion>a.b.*</AssemblyVersion>
 ```
-Version params of AssemblyVersion and AssemblyFileVersion follow these 
+Version params of AssemblyVersion follow these 
 rules:
 
 1. The format of version must be follow (Major).(Minor).*
