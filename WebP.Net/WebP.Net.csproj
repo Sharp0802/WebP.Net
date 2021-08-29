@@ -8,7 +8,7 @@
 
     <!-- Versioning -->
     <PropertyGroup>
-        <DeclaredVersion>1.0</DeclaredVersion>
+        <DeclaredVersion>1.1</DeclaredVersion>
         
         <AssemblyVersion>$(DeclaredVersion).*</AssemblyVersion>
         <PackageVersion>$(DeclaredVersion)</PackageVersion>
