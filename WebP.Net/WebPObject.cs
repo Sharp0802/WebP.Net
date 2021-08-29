@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using WebP.Net.Helpers;
 using WebP.Net.Natives;
 using WebP.Net.Natives.Enums;
 using WebP.Net.Natives.Structs;
@@ -12,17 +13,42 @@ namespace WebP.Net
 {
 	public sealed class WebPObject : IDisposable
 	{
-		private (IntPtr Pointer, int Size) DynamicArray { get; set; } = (IntPtr.Zero, 0);
-
-		private object CacheLockHandle { get; } = new();
+		#region Ctors
+		
+		public WebPObject(Image image)
+		{
+			_initWithImage = true;
+			ImageCache    = image;
+		}
+		
+		public WebPObject(byte[] bytes)
+		{
+			BytesCache = bytes;
+		}
+		
+		#endregion
+		
+		#region Fields
+		
+		private readonly object _cacheLockHandle = new();
 
 		private byte[] _bytesCache;
+
+		private readonly bool _initWithImage;
+
+		internal const int WebpMaxDimension = 16383;
+		
+		#endregion
+		
+		#region Properties
+		
+		private (IntPtr Pointer, int Size) DynamicArray { get; set; } = (IntPtr.Zero, 0);
 
 		private byte[] BytesCache
 		{
 			get
 			{
-				lock (CacheLockHandle)
+				lock (_cacheLockHandle)
 				{
 					if (_bytesCache is not null)
 						return _bytesCache;
@@ -39,8 +65,8 @@ namespace WebP.Net
 		private Image ImageCache { get; set; }
 
 		private WebPInfo? InfoCache { get; set; }
-
-		private const int WebpMaxDimension = 16383;
+		
+		#endregion
 		
 		#region Private methods
 
@@ -50,11 +76,11 @@ namespace WebP.Net
 			switch (image)
 			{
 				case null:
-					throw ThrowHelper.NullReferenced(nameof(image));
+					throw new ArgumentNullException(nameof(image));
 				case {Width: 0} or {Height: 0}:
-					throw ThrowHelper.ContainsNoData();
+					throw new DataException("Image contains no data.");
 				case {Width: > WebpMaxDimension} or {Height: > WebpMaxDimension}:
-					throw ThrowHelper.SizeTooBig();
+					throw new IOException($"Image too big. {WebpMaxDimension}x{WebpMaxDimension} is maximal size.");
 			}
 		}
 
@@ -96,7 +122,7 @@ namespace WebP.Net
 					? Native.WebPEncodeBgra(data.Scan0, data.Width, data.Height, data.Stride, quality, out var ptr)
 					: Native.WebPEncodeLosslessBgra(data.Scan0, data.Width, data.Height, data.Stride, out ptr);
 				if (size is 0)
-					throw ThrowHelper.CannotEncodeByUnknown();
+					throw new IOException("Cannot encode image by unknown cause.");
 				DynamicArray = (ptr, size);
 			}
 			finally
@@ -132,7 +158,7 @@ namespace WebP.Net
 			}
 
 			if (length is 0)
-				throw ThrowHelper.CannotEncodeByUnknown();
+				throw new IOException("Cannot decode image by unknown cause.");
 
 			return bmp;
 		}
@@ -195,25 +221,25 @@ namespace WebP.Net
 		
 		public static WebPVersion GetVersion()
 		{
-			try
-			{
-				var v = (uint) Native.WebPGetDecoderVersion();
-				return new WebPVersion((v >> 16) % 256, (v >> 8) % 256, v % 256);
-			}
-			catch (Exception ex)
-			{
-				throw ThrowHelper.Create(ex);
-			}
+			var v = (uint) Native.WebPGetDecoderVersion();
+			return new WebPVersion((v >> 16) % 256, (v >> 8) % 256, v % 256);
 		}
 		
 		#endregion
-
+		
+		#region Dtors
+		
 		~WebPObject() => Dispose();
 
 		public void Dispose()
 		{
+			if (!_initWithImage)
+				ImageCache?.Dispose();
 			if (DynamicArray.Pointer != IntPtr.Zero)
 				Native.WebPFree(DynamicArray.Pointer);
+			GC.SuppressFinalize(this);
 		}
+		
+		#endregion
 	}
 }
