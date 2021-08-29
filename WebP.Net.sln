@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebP.Net", "WebP.Net.csproj", "{D0BAB316-8DF0-4955-8B5A-E4909402A906}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebP.Net", "WebP.Net/WebP.Net.csproj", "{D0BAB316-8DF0-4955-8B5A-E4909402A906}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

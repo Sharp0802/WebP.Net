@@ -20,15 +20,11 @@
         <PackageId>WebP.Net</PackageId>
         <Authors>Sharp0802</Authors>
         <Description>WebP encoder/decoder for .net standard 2.1</Description>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageProjectUrl>https://github.com/Sharp0802/WebP.Net</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Sharp0802/WebP.Net.git</RepositoryUrl>
         <RepositoryType>Git</RepositoryType>
         <PackageTags>WebP</PackageTags>
     </PropertyGroup>
-    <ItemGroup>
-        <None Include="LICENSE" Pack="true" PackagePath="" />
-    </ItemGroup>
 
     <ItemGroup>
         <EmbeddedResource Include="libwebp.x64.dll"/>
