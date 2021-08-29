@@ -6,6 +6,12 @@
         <LangVersion>10.0</LangVersion>
     </PropertyGroup>
 
+    <!-- Versioning -->
+    <PropertyGroup>
+        <AssemblyVersion>1.0.*</AssemblyVersion>
+        <Deterministic>false</Deterministic>
+    </PropertyGroup>
+
     <ItemGroup>
         <Content Include="libwebp_x64.dll">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
