@@ -9,6 +9,7 @@ namespace WebP.Net
 {
 	public readonly struct WebPInfo
 	{
+		[method: Obsolete("WebPInfo.GetFrom is obsolete. Use WebPObject instead of this.")]
 		public static WebPInfo GetFrom(byte[] webP)
 		{
 			var handle = GCHandle.Alloc(webP, GCHandleType.Pinned);
@@ -17,14 +18,9 @@ namespace WebP.Net
 			{
 				var features = new WebPBitstreamFeatures();
 				var status   = Native.WebPGetFeatures(handle.AddrOfPinnedObject(), webP.Length, ref features);
-
 				if (status is not Vp8StatusCode.Ok)
 					throw new ExternalException(status.ToString());
-
-				return new WebPInfo(features.Width,
-				                    features.Height,
-				                    features.Has_alpha is 1,
-				                    features.Has_animation is 1);
+				return new WebPInfo(features);
 			}
 			catch (Exception ex)
 			{
@@ -36,13 +32,13 @@ namespace WebP.Net
 					handle.Free();
 			}
 		}
-
-		public WebPInfo(int width, int height, bool hasAlpha, bool isAnimated)
+		
+		internal WebPInfo(WebPBitstreamFeatures features)
 		{
-			Width      = width;
-			Height     = height;
-			HasAlpha   = hasAlpha;
-			IsAnimated = isAnimated;
+			Width      = features.Width;
+			Height     = features.Height;
+			HasAlpha   = features.Has_alpha is not 0;
+			IsAnimated = features.Has_animation is not 0;
 		}
 
 		public int  Width      { get; }

@@ -9,6 +9,7 @@ namespace WebP.Net
 {
 	public static class WebPDecoder
 	{
+		[method: Obsolete("WebPDecoder is obsolete. Use WebPObject instead of this.")]
 		public static Bitmap Decode(byte[] webP)
 		{
 			var bmp    = default(Bitmap);
