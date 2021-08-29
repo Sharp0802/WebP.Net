@@ -25,6 +25,9 @@
         <RepositoryType>Git</RepositoryType>
         <PackageTags>WebP</PackageTags>
     </PropertyGroup>
+    <ItemGroup>
+        <Content Include="runtimes\**" PackagePath="runtimes"/>
+    </ItemGroup>
     
     <ItemGroup>
         <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
