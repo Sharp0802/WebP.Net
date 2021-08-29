@@ -25,12 +25,7 @@
         <RepositoryType>Git</RepositoryType>
         <PackageTags>WebP</PackageTags>
     </PropertyGroup>
-
-    <ItemGroup>
-        <EmbeddedResource Include="libwebp.x64.dll"/>
-        <EmbeddedResource Include="libwebp.x86.dll"/>
-    </ItemGroup>
-
+    
     <ItemGroup>
         <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     </ItemGroup>
