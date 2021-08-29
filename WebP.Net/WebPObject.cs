@@ -5,13 +5,17 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using WebP.Net.Helpers;
 using WebP.Net.Natives;
+using WebP.Net.Natives.Enums;
+using WebP.Net.Natives.Structs;
 
 namespace WebP.Net
 {
 	public abstract class WebPObject : IDisposable
 	{
+		private const int WebpMaxDimension = 16383;
+
 		protected abstract Func<BitmapData, (IntPtr Pointer, int Size)> Encoder { get; }
-		
+
 		private (IntPtr Pointer, int Size) DynamicArray { get; set; }
 
 		private object CacheLockHandle { get; } = new();
@@ -43,9 +47,9 @@ namespace WebP.Net
 			{
 				case null:
 					throw ThrowHelper.NullReferenced(nameof(image));
-				case { Width: 0 } or { Height: 0 }:
+				case {Width: 0} or {Height: 0}:
 					throw ThrowHelper.ContainsNoData();
-				case { Width: > WebpMaxDimension } or { Height: > WebpMaxDimension }:
+				case {Width: > WebpMaxDimension} or {Height: > WebpMaxDimension}:
 					throw ThrowHelper.SizeTooBig();
 			}
 		}
@@ -53,20 +57,18 @@ namespace WebP.Net
 		[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private static Bitmap ConvertTo32Argb(Image image)
 		{
-			var bitmap  = new Bitmap(image.Width, image.Height, PixelFormat.Format32bppArgb);
+			var       bitmap  = new Bitmap(image.Width, image.Height, PixelFormat.Format32bppArgb);
 			using var graphic = Graphics.FromImage(bitmap);
 			graphic.DrawImage(image, new Rectangle(0, 0, bitmap.Width, bitmap.Height));
 			return bitmap;
 		}
 
 		[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private static BitmapData GetData(Bitmap bitmap)
+		private static BitmapData GetData(Bitmap bitmap, ImageLockMode mode)
 		{
-			return bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
-			                       ImageLockMode.ReadOnly,
-			                       bitmap.PixelFormat);
+			return bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), mode, bitmap.PixelFormat);
 		}
-		
+
 		[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
 		private void Encode(Image image)
 		{
@@ -75,7 +77,7 @@ namespace WebP.Net
 			BitmapData data   = null;
 			try
 			{
-				data         = GetData(bitmap);
+				data         = GetData(bitmap, ImageLockMode.ReadOnly);
 				DynamicArray = Encoder(data);
 			}
 			finally
@@ -84,7 +86,48 @@ namespace WebP.Net
 			}
 		}
 
-		private const int WebpMaxDimension = 16383;
+		[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private static WebPInfo GetFrom(IntPtr pointer, int size)
+		{
+			var features = new WebPBitstreamFeatures();
+			var status   = Native.WebPGetFeatures(pointer, size, ref features);
+			if (status is not Vp8StatusCode.Ok)
+				throw new ExternalException(status.ToString());
+			return new WebPInfo(features);
+		}
+
+		private delegate int DecodeInto(IntPtr ptr, int size, IntPtr output, int outputSize, int outputStride);
+		
+		[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static Bitmap Decode(IntPtr pointer, int size)
+		{
+			Bitmap     bmp    = null;
+			BitmapData data   = null;
+			int        length;
+
+			try
+			{
+				var info = GetFrom(pointer, size);
+				bmp = new Bitmap(info.Width, info.Height, info.HasAlpha 
+					                 ? PixelFormat.Format32bppArgb 
+					                 : PixelFormat.Format24bppRgb); 
+				data = GetData(bmp, ImageLockMode.WriteOnly);
+				length = ((DecodeInto) (info.HasAlpha 
+					? Native.WebPDecodeBgraInto
+					: Native.WebPDecodeBgrInto))
+				   .Invoke(pointer, size, data.Scan0, data.Stride * info.Height, data.Stride);
+				
+			}
+			finally
+			{
+				if (data is not null) bmp.UnlockBits(data);
+			}
+
+			if (length is 0)
+				throw ThrowHelper.CannotEncodeByUnknown();
+
+			return bmp;
+		}
 
 		public void Dispose()
 		{
