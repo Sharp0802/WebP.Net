@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebP.Net", "WebP.Net/WebP.Net.csproj", "{D0BAB316-8DF0-4955-8B5A-E4909402A906}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebP.Net", "WebP.Net\WebP.Net.csproj", "{D0BAB316-8DF0-4955-8B5A-E4909402A906}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebP.Net.Test", "WebP.Net.Test\WebP.Net.Test.csproj", "{70E7DD56-B655-4C58-A7DC-7B17D8104E34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D0BAB316-8DF0-4955-8B5A-E4909402A906}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0BAB316-8DF0-4955-8B5A-E4909402A906}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0BAB316-8DF0-4955-8B5A-E4909402A906}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70E7DD56-B655-4C58-A7DC-7B17D8104E34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70E7DD56-B655-4C58-A7DC-7B17D8104E34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70E7DD56-B655-4C58-A7DC-7B17D8104E34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70E7DD56-B655-4C58-A7DC-7B17D8104E34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
