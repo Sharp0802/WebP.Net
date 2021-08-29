@@ -8,15 +8,33 @@
 
     <!-- Versioning -->
     <PropertyGroup>
-        <AssemblyVersion>1.0.*</AssemblyVersion>
+        <DeclaredVersion>1.0</DeclaredVersion>
+        
+        <AssemblyVersion>$(DeclaredVersion).*</AssemblyVersion>
+        <PackageVersion>$(DeclaredVersion)</PackageVersion>
         <Deterministic>false</Deterministic>
     </PropertyGroup>
 
+    <!-- Packaging -->
+    <PropertyGroup>
+        <PackageId>WebP.Net</PackageId>
+        <Authors>Sharp0802</Authors>
+        <Description>WebP encoder/decoder for .net standard 2.1</Description>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageProjectUrl>https://github.com/Sharp0802/WebP.Net</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Sharp0802/WebP.Net.git</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
+        <PackageTags>WebP</PackageTags>
+    </PropertyGroup>
     <ItemGroup>
-        <Content Include="libwebp_x64.dll">
+        <None Include="LICENSE" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="libwebp.x64.dll">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Include="libwebp_x86.dll">
+        <Content Include="libwebp.x86.dll">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
