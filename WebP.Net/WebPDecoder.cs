@@ -7,6 +7,7 @@ using WebP.Net.Natives;
 
 namespace WebP.Net
 {
+	[type: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
 	public static class WebPDecoder
 	{
 		[method: Obsolete("WebPDecoder is obsolete. Use WebPObject instead of this.")]
