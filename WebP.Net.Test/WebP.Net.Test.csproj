@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WebP.Net" Version="1.0.0"/>
+    <PackageReference Include="WebP.Net" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
