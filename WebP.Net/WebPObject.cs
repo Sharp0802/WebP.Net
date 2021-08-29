@@ -10,11 +10,9 @@ using WebP.Net.Natives.Structs;
 
 namespace WebP.Net
 {
-	public abstract class WebPObject : IDisposable
+	public class WebPObject : IDisposable
 	{
 		private const int WebpMaxDimension = 16383;
-
-		protected abstract Func<BitmapData, (IntPtr Pointer, int Size)> Encoder { get; }
 
 		private (IntPtr Pointer, int Size) DynamicArray { get; set; }
 
@@ -22,12 +20,11 @@ namespace WebP.Net
 
 		private byte[] _bytesCache;
 
-		private byte[] BytesCache
+		protected byte[] BytesCache
 		{
 			get
 			{
-				if (DynamicArray.Pointer == IntPtr.Zero)
-					return Array.Empty<byte>();
+				if (DynamicArray.Pointer == IntPtr.Zero) return null;
 
 				lock (CacheLockHandle)
 				{
@@ -70,15 +67,20 @@ namespace WebP.Net
 		}
 
 		[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private void Encode(Image image)
+		protected void Encode(Image image, bool lossy, float quality)
 		{
 			VerifyImage(image);
 			using var  bitmap = ConvertTo32Argb(image);
 			BitmapData data   = null;
 			try
 			{
-				data         = GetData(bitmap, ImageLockMode.ReadOnly);
-				DynamicArray = Encoder(data);
+				data = GetData(bitmap, ImageLockMode.ReadOnly);
+				var size = lossy
+					? Native.WebPEncodeBgra(data.Scan0, data.Width, data.Height, data.Stride, quality, out var ptr)
+					: Native.WebPEncodeLosslessBgra(data.Scan0, data.Width, data.Height, data.Stride, out ptr);
+				if (size is 0) 
+					throw ThrowHelper.CannotEncodeByUnknown();
+				DynamicArray = (ptr, size);
 			}
 			finally
 			{
@@ -97,26 +99,25 @@ namespace WebP.Net
 		}
 
 		private delegate int DecodeInto(IntPtr ptr, int size, IntPtr output, int outputSize, int outputStride);
-		
+
 		[method: MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private static Bitmap Decode(IntPtr pointer, int size)
+		protected static Bitmap Decode(IntPtr pointer, int size)
 		{
-			Bitmap     bmp    = null;
-			BitmapData data   = null;
+			Bitmap     bmp  = null;
+			BitmapData data = null;
 			int        length;
 
 			try
 			{
 				var info = GetFrom(pointer, size);
-				bmp = new Bitmap(info.Width, info.Height, info.HasAlpha 
-					                 ? PixelFormat.Format32bppArgb 
-					                 : PixelFormat.Format24bppRgb); 
+				bmp = new Bitmap(info.Width, info.Height, info.HasAlpha
+					                 ? PixelFormat.Format32bppArgb
+					                 : PixelFormat.Format24bppRgb);
 				data = GetData(bmp, ImageLockMode.WriteOnly);
-				length = ((DecodeInto) (info.HasAlpha 
-					? Native.WebPDecodeBgraInto
-					: Native.WebPDecodeBgrInto))
+				length = ((DecodeInto) (info.HasAlpha
+						? Native.WebPDecodeBgraInto
+						: Native.WebPDecodeBgrInto))
 				   .Invoke(pointer, size, data.Scan0, data.Stride * info.Height, data.Stride);
-				
 			}
 			finally
 			{
@@ -129,11 +130,21 @@ namespace WebP.Net
 			return bmp;
 		}
 
-		public abstract WebPObject Create(byte[] webp);
+		public Image GetImage()
+		{
+		}
 
-		public abstract WebPObject Create(Image image);
+		public byte[] GetWebP(float quality = 70)
+		{
+		}
 
-		public void Dispose()
+		public WebPInfo GetInfo()
+		{
+		}
+
+		~WebPObject() => Dispose();
+
+		public virtual void Dispose()
 		{
 			if (DynamicArray.Pointer != IntPtr.Zero)
 				Native.WebPFree(DynamicArray.Pointer);
