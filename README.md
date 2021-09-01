@@ -1,5 +1,8 @@
 # WebP.Net
 
+![](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
+![](https://img.shields.io/badge/NuGet-004880?style=for-the-badge&logo=nuget&logoColor=white)
+
 ## What is this?
 
 This library provides a simple encoder and decoder for webp.
