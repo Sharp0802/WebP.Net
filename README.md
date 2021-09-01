@@ -1,4 +1,4 @@
-﻿# WebP.Net
+# WebP.Net
 
 ## What is this?
 
@@ -14,15 +14,18 @@ using WebP.Net;
 
 static byte[] EncodeLossy(Bitmap bitmap, float quality)
 {
-    return WebPEncoder.EncodeLossy(bitmap, quality);
+    using var webp = new WebPObject(bitmap);
+    return webp.GetWebPLossy(quality);
 }
 static byte[] EncodeLossless(Bitmap bitmap)
 {
-    return WebPEncoder.EncodeLossless(bitmap);
+    using var webp = new WebPObject(bitmap);
+    return webp.GetLossless();
 }
-static Bitmap DecodeWebP(byte[] webP)
+static Image DecodeWebP(byte[] webP)
 {
-    return WebPDecoder.Decode(bytes);
+    using var webp = new WebPObject(webP);
+    return webp.GetImage();
 }
 ```
 
@@ -33,7 +36,8 @@ using WebP.Net;
 
 static WebPInfo GetInfo(byte[] webP)
 {
-    return WebPInfo.GetFrom(webP);
+    using var webp = new WebPObject(webP);
+    return webP.GetInfo();
 }
 ```
 
@@ -44,10 +48,10 @@ using WebP.Net;
 
 static WebPVersion GetVersion()
 {
-    return WebPLibrary.GetVersion(); // get version of libwebp
+    return WebPObject.GetVersion(); // get version of libwebp
 }
 static string GetVersionAsString()
 {
-    return WebPLibrary.GetVersion().ToString; // Major.Minor.Revision
+    return WebPObject.GetVersion().ToString(); // Major.Minor.Revision
 }
 ```
