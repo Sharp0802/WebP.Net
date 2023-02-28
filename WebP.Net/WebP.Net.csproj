@@ -8,9 +8,9 @@
 
     <!-- Versioning -->
     <PropertyGroup>
-        <DeclaredVersion>1.1</DeclaredVersion>
+        <DeclaredVersion>1.1.1</DeclaredVersion>
         
-        <AssemblyVersion>$(DeclaredVersion).*</AssemblyVersion>
+        <AssemblyVersion>$(DeclaredVersion)</AssemblyVersion>
         <PackageVersion>$(DeclaredVersion)</PackageVersion>
         <Deterministic>false</Deterministic>
     </PropertyGroup>
@@ -31,7 +31,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+        <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     </ItemGroup>
 
 </Project>
