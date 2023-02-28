@@ -1,11 +1,10 @@
-﻿namespace WebP.Net.Natives.Enums
+﻿namespace WebP.Net.Natives.Enums;
+
+public enum WebPImageHint
 {
-	public enum WebPImageHint
-	{
-		Default,
-		Picture,
-		Photo,
-		Graph,
-		Last
-	}
+	Default,
+	Picture,
+	Photo,
+	Graph,
+	Last
 }

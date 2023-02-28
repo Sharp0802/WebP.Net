@@ -2,23 +2,22 @@
 using WebP.Net.Helpers;
 using WebP.Net.Natives;
 
-namespace WebP.Net
+namespace WebP.Net;
+
+[type: Obsolete("WebPLibrary is obsolete. Use WebPObject instead of this.")]
+public static class WebPLibrary
 {
-	[type: Obsolete("WebPLibrary is obsolete. Use WebPObject instead of this.")]
-	public static class WebPLibrary
+	[method: Obsolete("WebPLibrary is obsolete. Use WebPObject instead of this.")]
+	public static WebPVersion GetVersion()
 	{
-		[method: Obsolete("WebPLibrary is obsolete. Use WebPObject instead of this.")]
-		public static WebPVersion GetVersion()
+		try
 		{
-			try
-			{
-				var v = (uint) Native.WebPGetDecoderVersion();
-				return new WebPVersion((v >> 16) % 256, (v >> 8) % 256, v % 256);
-			}
-			catch (Exception ex)
-			{
-				throw ThrowHelper.Create(ex);
-			}
+			var v = (uint) Native.WebPGetDecoderVersion();
+			return new WebPVersion((v >> 16) % 256, (v >> 8) % 256, v % 256);
+		}
+		catch (Exception ex)
+		{
+			throw ThrowHelper.Create(ex);
 		}
 	}
 }

@@ -2,15 +2,14 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
-namespace WebP.Net.Natives.Structs
+namespace WebP.Net.Natives.Structs;
+
+[StructLayout(LayoutKind.Sequential),
+ SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global"),
+ SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+public struct WebPRgbaBuffer
 {
-	[StructLayout(LayoutKind.Sequential),
-	 SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global"),
-	 SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-	public struct WebPRgbaBuffer
-	{
-		public IntPtr  rgba;
-		public int     stride;
-		public UIntPtr size;
-	}
+	public IntPtr  rgba;
+	public int     stride;
+	public UIntPtr size;
 }

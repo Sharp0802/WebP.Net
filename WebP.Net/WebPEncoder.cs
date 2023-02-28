@@ -5,107 +5,106 @@ using System.Runtime.InteropServices;
 using WebP.Net.Helpers;
 using WebP.Net.Natives;
 
-namespace WebP.Net
+namespace WebP.Net;
+
+[type: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
+public static class WebPEncoder
 {
-	[type: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
-	public static class WebPEncoder
+	[field: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
+	internal const int WebpMaxDimension = 16383;
+
+	[method: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
+	public static byte[] EncodeLossy(Bitmap image, float quality)
 	{
-		[method: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
-		public static byte[] EncodeLossy(Bitmap image, float quality)
+		if (quality is < 0f or > 100f)
+			throw ThrowHelper.QualityOutOfRange();
+
+		return EncodeBase(image, data =>
 		{
-			if (quality is < 0f or > 100f)
-				throw ThrowHelper.QualityOutOfRange();
+			var size = Native.WebPEncodeBgra(data.Scan0, data.Width, data.Height, data.Stride, quality, out var ptr);
+			if (size is 0)
+				throw ThrowHelper.CannotEncodeByUnknown();
 
-			return EncodeBase(image, data =>
-			{
-				var size = Native.WebPEncodeBgra(data.Scan0, data.Width, data.Height, data.Stride, quality, out var ptr);
-				if (size is 0)
-					throw ThrowHelper.CannotEncodeByUnknown();
+			return (ptr, size);
+		});
+	}
 
-				return (ptr, size);
-			});
+	[method: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
+	public static byte[] EncodeLossless(Bitmap image)
+	{
+		return EncodeBase(image, data =>
+		{
+			var size = Native.WebPEncodeLosslessBgra(data.Scan0, data.Width, data.Height, data.Stride, out var ptr);
+			if (size is 0)
+				throw ThrowHelper.CannotEncodeByUnknown();
+
+			return (ptr, size);
+		});
+	}
+
+	[method: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
+	private static byte[] EncodeBase(Image image, Func<BitmapData, (IntPtr Ptr, int Size)> encoder)
+	{
+		static void ValidateImage(Image image)
+		{
+			if (image is null)
+				throw ThrowHelper.NullReferenced(nameof(image));
+			if (image.Width is 0 || image.Height is 0)
+				throw ThrowHelper.ContainsNoData();
+			if (image.Width > WebpMaxDimension || image.Height > WebpMaxDimension)
+				throw ThrowHelper.SizeTooBig();
 		}
 
-		[method: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
-		public static byte[] EncodeLossless(Bitmap image)
+		static BitmapData LockBitsAsReadonly(Bitmap bmp)
 		{
-			return EncodeBase(image, data =>
-			{
-				var size = Native.WebPEncodeLosslessBgra(data.Scan0, data.Width, data.Height, data.Stride, out var ptr);
-				if (size is 0)
-					throw ThrowHelper.CannotEncodeByUnknown();
-
-				return (ptr, size);
-			});
+			return bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
 		}
 
-		[field: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
-		internal const int WebpMaxDimension = 16383;
-
-		[method: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
-		private static byte[] EncodeBase(Image image, Func<BitmapData, (IntPtr Ptr, int Size)> encoder)
+		static byte[] PointerToBytes(IntPtr ptr, int size)
 		{
-			static void ValidateImage(Image image)
-			{
-				if (image is null)
-					throw ThrowHelper.NullReferenced(nameof(image));
-				if (image.Width is 0 || image.Height is 0)
-					throw ThrowHelper.ContainsNoData();
-				if (image.Width > WebpMaxDimension || image.Height > WebpMaxDimension)
-					throw ThrowHelper.SizeTooBig();
-			}
+			var bytes = new byte[size];
+			Marshal.Copy(ptr, bytes, 0, size);
+			return bytes;
+		}
 
-			static BitmapData LockBitsAsReadonly(Bitmap bmp)
-			{
-				return bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
-			}
+		static Bitmap ConvertFormat(Image origin, PixelFormat format)
+		{
+			var clone = new Bitmap(origin.Width, origin.Height, format);
 
-			static byte[] PointerToBytes(IntPtr ptr, int size)
-			{
-				var bytes = new byte[size];
-				Marshal.Copy(ptr, bytes, 0, size);
-				return bytes;
-			}
+			using var graphic = Graphics.FromImage(clone);
+			graphic.DrawImage(origin, new Rectangle(0, 0, clone.Width, clone.Height));
 
-			static Bitmap ConvertFormat(Image origin, PixelFormat format)
-			{
-				var clone = new Bitmap(origin.Width, origin.Height, format);
+			return clone;
+		}
 
-				using var graphic = Graphics.FromImage(clone);
-				graphic.DrawImage(origin, new Rectangle(0, 0, clone.Width, clone.Height));
+		ValidateImage(image);
 
-				return clone;
-			}
+		using var bmp = ConvertFormat(image, PixelFormat.Format32bppArgb);
 
-			ValidateImage(image);
+		var data = default(BitmapData);
+		var ptr  = IntPtr.Zero;
 
-			using var bmp = ConvertFormat(image, PixelFormat.Format32bppArgb);
+		try
+		{
+			data = LockBitsAsReadonly(bmp);
 
-			var data = default(BitmapData);
-			var ptr  = IntPtr.Zero;
+			int size;
+			(ptr, size) = encoder(data);
 
-			try
-			{
-				data = LockBitsAsReadonly(bmp);
+			var bytes = PointerToBytes(ptr, size);
 
-				int size;
-				(ptr, size) = encoder(data);
-
-				var bytes = PointerToBytes(ptr, size);
-
-				return bytes;
-			}
-			catch (Exception ex)
-			{
-				throw ThrowHelper.Create(ex);
-			}
-			finally
-			{
-				if (data is not null)
-					bmp.UnlockBits(data);
-				if (ptr != IntPtr.Zero)
-					Native.WebPFree(ptr);
-			}
+			return bytes;
+		}
+		catch (Exception ex)
+		{
+			throw ThrowHelper.Create(ex);
+		}
+		finally
+		{
+			if (data is not null)
+				bmp.UnlockBits(data);
+			if (ptr != IntPtr.Zero)
+				Native.WebPFree(ptr);
 		}
 	}
 }

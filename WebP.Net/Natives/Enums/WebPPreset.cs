@@ -1,12 +1,11 @@
-﻿namespace WebP.Net.Natives.Enums
+﻿namespace WebP.Net.Natives.Enums;
+
+public enum WebPPreset
 {
-	public enum WebPPreset
-	{
-		Default,
-		Picture,
-		Photo,
-		Drawing,
-		Icon,
-		Text
-	}
+	Default,
+	Picture,
+	Photo,
+	Drawing,
+	Icon,
+	Text
 }
