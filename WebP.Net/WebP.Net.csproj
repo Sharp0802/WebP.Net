@@ -9,6 +9,7 @@
     <!-- Versioning -->
     <PropertyGroup>
         <DeclaredVersion>1.1.1</DeclaredVersion>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         
         <AssemblyVersion>$(DeclaredVersion)</AssemblyVersion>
         <PackageVersion>$(DeclaredVersion)</PackageVersion>
@@ -27,6 +28,7 @@
         <PackageTags>WebP</PackageTags>
     </PropertyGroup>
     <ItemGroup>
+        <Content Include="..\README.md" PackagePath=""/>
         <Content Include="runtimes\**" PackagePath="runtimes" />
     </ItemGroup>
     
