@@ -1,6 +1,9 @@
 
+using System;
+using WebP.Net;
+
 Console.WriteLine("Hello, World!");
 
-Console.WriteLine("libwebp version: {0}", WebP.Net.WebPLibrary.GetVersion().ToString());
+Console.WriteLine("libwebp version: {0}", WebPObject.GetVersion().ToString());
 
 Console.ReadKey(true);
