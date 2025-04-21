@@ -2,8 +2,9 @@
 
     <PropertyGroup>
         <OutputType>Library</OutputType>
-        <TargetFramework>netstandard2.1</TargetFramework>
-        <LangVersion>10.0</LangVersion>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <LangVersion>12.0</LangVersion>
     </PropertyGroup>
 
     <!-- Versioning -->
@@ -34,6 +35,7 @@
 
     <ItemGroup>
         <PackageReference Include="System.Drawing.Common" Version="7.0.0"/>
+        <PackageReference Include="System.Memory" Version="4.6.3" />
     </ItemGroup>
 
 </Project>

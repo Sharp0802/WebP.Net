@@ -12,13 +12,8 @@ public readonly struct WebPVersion
 		Revision = revision;
 	}
 
-	[property: SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 	public uint Major { get; }
-
-	[property: SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 	public uint Minor { get; }
-
-	[property: SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 	public uint Revision { get; }
 
 	public override string ToString()
