@@ -1,12 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using WebP.Net.Natives.Enums;
 
 namespace WebP.Net.Natives.Structs;
 
-[StructLayout(LayoutKind.Sequential),
- SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global"),
- SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+[StructLayout(LayoutKind.Sequential)]
 public struct WebPConfig
 {
 	public           int           lossless;

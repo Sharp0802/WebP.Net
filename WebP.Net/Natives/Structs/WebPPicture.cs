@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace WebP.Net.Natives.Structs;
 
-[StructLayout(LayoutKind.Sequential),
- SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global"),
- SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+[StructLayout(LayoutKind.Sequential)]
 public struct WebPPicture : IDisposable
 {
 	public int    use_argb;
