@@ -7,10 +7,8 @@ using WebP.Net.Natives;
 
 namespace WebP.Net;
 
-[type: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
 public static class WebPDecoder
 {
-	[method: Obsolete("WebPDecoder is obsolete. Use WebPObject instead of this.")]
 	public static Bitmap Decode(byte[] webP)
 	{
 		var bmp    = default(Bitmap);
@@ -30,8 +28,8 @@ public static class WebPDecoder
 			var length  = data.Stride * info.Height;
 			var ptrData = handle.AddrOfPinnedObject();
 			size = bmp.PixelFormat is PixelFormat.Format24bppRgb
-				? Native.WebPDecodeBgrInto(ptrData, webP.Length, data.Scan0, length, data.Stride)
-				: Native.WebPDecodeBgraInto(ptrData, webP.Length, data.Scan0, length, data.Stride);
+				? Native.WebPDecodeBGRInto(ptrData, (UIntPtr)webP.Length, data.Scan0, length, data.Stride)
+				: Native.WebPDecodeBGRAInto(ptrData, (UIntPtr)webP.Length, data.Scan0, length, data.Stride);
 		}
 		catch (Exception ex)
 		{

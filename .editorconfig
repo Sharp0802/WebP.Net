@@ -334,7 +334,7 @@ dotnet_style_qualification_for_field = false:suggestion
 dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
-file_header_template = # ReSharper properties
+file_header_template =  # ReSharper properties
 
 resharper_accessor_owner_body = expression_body
 resharper_alignment_tab_fill_style = use_spaces
@@ -661,7 +661,7 @@ resharper_remove_this_qualifier = true
 resharper_requires_expression_braces = next_line
 resharper_resx_attribute_indent = single_indent
 resharper_resx_indent_style = space
-resharper_resx_linebreak_before_elements =
+resharper_resx_linebreak_before_elements = 
 resharper_resx_max_blank_lines_between_tags = 0
 resharper_resx_pi_attribute_style = do_not_touch
 resharper_resx_space_before_self_closing = false
@@ -884,7 +884,7 @@ resharper_xmldoc_wrap_tags_and_pi = true
 resharper_xmldoc_wrap_text = true
 resharper_xml_attribute_indent = align_by_first_attribute
 resharper_xml_indent_style = space
-resharper_xml_linebreak_before_elements =
+resharper_xml_linebreak_before_elements = 
 resharper_xml_max_blank_lines_between_tags = 2
 resharper_xml_pi_attribute_style = do_not_touch
 resharper_xml_space_before_self_closing = true
@@ -3269,6 +3269,12 @@ resharper_xaml_xaml_unknown_device_family_type_highlighting_highlighting = warni
 resharper_xaml_xaml_xamarin_forms_data_type_and_binding_context_type_mismatched_highlighting_highlighting = warning
 resharper_xaml_x_key_attribute_disallowed_highlighting = error
 resharper_xunit_xunit_test_with_console_output_highlighting = warning
+
+# ReSharper properties
+resharper_csharp_wrap_after_declaration_lpar = true
+resharper_csharp_wrap_parameters_style = chop_if_long
+resharper_wrap_before_primary_constructor_declaration_lpar = true
+resharper_wrap_before_primary_constructor_declaration_rpar = true
 
 [*.cs]
 indent_style = tab

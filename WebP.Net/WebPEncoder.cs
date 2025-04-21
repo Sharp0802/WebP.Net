@@ -7,13 +7,10 @@ using WebP.Net.Natives;
 
 namespace WebP.Net;
 
-[type: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
 public static class WebPEncoder
 {
-	[field: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
-	internal const int WebpMaxDimension = 16383;
+	public const int MaxSize = 16383;
 
-	[method: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
 	public static byte[] EncodeLossy(Bitmap image, float quality)
 	{
 		if (quality is < 0f or > 100f)
@@ -21,7 +18,7 @@ public static class WebPEncoder
 
 		return EncodeBase(image, data =>
 		{
-			var size = Native.WebPEncodeBgra(data.Scan0, data.Width, data.Height, data.Stride, quality, out var ptr);
+			var size = Native.WebPEncodeBGRA(data.Scan0, data.Width, data.Height, data.Stride, quality, out var ptr);
 			if (size is 0)
 				throw ThrowHelper.CannotEncodeByUnknown();
 
@@ -29,12 +26,11 @@ public static class WebPEncoder
 		});
 	}
 
-	[method: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
 	public static byte[] EncodeLossless(Bitmap image)
 	{
 		return EncodeBase(image, data =>
 		{
-			var size = Native.WebPEncodeLosslessBgra(data.Scan0, data.Width, data.Height, data.Stride, out var ptr);
+			var size = Native.WebPEncodeLosslessBGRA(data.Scan0, data.Width, data.Height, data.Stride, out var ptr);
 			if (size is 0)
 				throw ThrowHelper.CannotEncodeByUnknown();
 
@@ -42,7 +38,6 @@ public static class WebPEncoder
 		});
 	}
 
-	[method: Obsolete("WebPEncoder is obsolete. Use WebPObject instead of this.")]
 	private static byte[] EncodeBase(Image image, Func<BitmapData, (IntPtr Ptr, int Size)> encoder)
 	{
 		static void ValidateImage(Image image)
@@ -51,7 +46,7 @@ public static class WebPEncoder
 				throw ThrowHelper.NullReferenced(nameof(image));
 			if (image.Width is 0 || image.Height is 0)
 				throw ThrowHelper.ContainsNoData();
-			if (image.Width > WebpMaxDimension || image.Height > WebpMaxDimension)
+			if (image.Width > MaxSize || image.Height > MaxSize)
 				throw ThrowHelper.SizeTooBig();
 		}
 
