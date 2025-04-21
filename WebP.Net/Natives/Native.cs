@@ -9,7 +9,8 @@ namespace WebP.Net.Natives;
 [SuppressUnmanagedCodeSecurity]
 public static class Native
 {
-	private const string DllPath = "webp";
+	private const string DllPath           = "webp";
+	private const int    DecoderABIVersion = 0x0209;
 
 	[DllImport(DllPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPConfigInitInternal")]
 	public static extern int WebPConfigInitInternal(
@@ -19,11 +20,20 @@ public static class Native
 		int            webpDecoderAbiVersion);
 
 
-	[DllImport(DllPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPGetFeatures")]
-	public static extern Vp8StatusCode WebPGetFeatures(
+	[DllImport(DllPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPGetFeaturesInternal")]
+	public static extern Vp8StatusCode WebPGetFeaturesInternal(
 		[In] IntPtr               rawWebP,
 		UIntPtr                   dataSize,
-		ref WebPBitstreamFeatures features);
+		ref WebPBitstreamFeatures features,
+		int                       version);
+
+	public static Vp8StatusCode WebPGetFeatures(
+		[In] IntPtr               rawWebP,
+		UIntPtr                   dataSize,
+		ref WebPBitstreamFeatures features)
+	{
+		return WebPGetFeaturesInternal(rawWebP, dataSize, ref features, DecoderABIVersion);
+	}
 
 	[DllImport(DllPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPConfigLosslessPreset")]
 	public static extern int WebPConfigLosslessPreset(ref WebPConfig config, int level);
