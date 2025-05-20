@@ -4,7 +4,8 @@
         <OutputType>Library</OutputType>
         <TargetFramework>netstandard2.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <LangVersion>12.0</LangVersion>
+        <LangVersion>13</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <!-- Versioning -->
@@ -14,14 +15,13 @@
 
         <AssemblyVersion>$(DeclaredVersion)</AssemblyVersion>
         <PackageVersion>$(DeclaredVersion)</PackageVersion>
-        <Deterministic>false</Deterministic>
     </PropertyGroup>
 
     <!-- Packaging -->
     <PropertyGroup>
         <PackageId>WebP_Net</PackageId>
         <Authors>Sharp0802</Authors>
-        <Description>WebP encoder/decoder for .net standard 2.1</Description>
+        <Description>WebP encoder/decoder for .net standard 2.0</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/Sharp0802/WebP.Net</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Sharp0802/WebP.Net.git</RepositoryUrl>

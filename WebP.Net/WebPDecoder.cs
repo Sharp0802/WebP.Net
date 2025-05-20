@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 using WebP.Net.Helpers;
 using WebP.Net.Natives;
 
@@ -9,11 +8,10 @@ namespace WebP.Net;
 
 public static class WebPDecoder
 {
-	public static Bitmap Decode(byte[] webP)
+	public static Bitmap Decode(Span<byte> webP)
 	{
 		var bmp    = default(Bitmap);
 		var data   = default(BitmapData);
-		var handle = GCHandle.Alloc(webP, GCHandleType.Pinned);
 		int size;
 
 		try
@@ -26,10 +24,16 @@ public static class WebPDecoder
 			data = bmp.LockBits(new Rectangle(0, 0, info.Width, info.Height), ImageLockMode.WriteOnly, bmp.PixelFormat);
 
 			var length  = data.Stride * info.Height;
-			var ptrData = handle.AddrOfPinnedObject();
-			size = bmp.PixelFormat is PixelFormat.Format24bppRgb
-				? Native.WebPDecodeBGRInto(ptrData, (UIntPtr)webP.Length, data.Scan0, length, data.Stride)
-				: Native.WebPDecodeBGRAInto(ptrData, (UIntPtr)webP.Length, data.Scan0, length, data.Stride);
+			
+			unsafe
+			{
+				fixed (byte* ptr = webP)
+				{
+					size = bmp.PixelFormat is PixelFormat.Format24bppRgb
+						? Native.WebPDecodeBGRInto((IntPtr)ptr, (UIntPtr)webP.Length, data.Scan0, length, data.Stride)
+						: Native.WebPDecodeBGRAInto((IntPtr)ptr, (UIntPtr)webP.Length, data.Scan0, length, data.Stride);
+				}
+			}
 		}
 		catch (Exception ex)
 		{
@@ -37,10 +41,8 @@ public static class WebPDecoder
 		}
 		finally
 		{
-			if (data is not null)
+			if (bmp is not null && data is not null)
 				bmp.UnlockBits(data);
-			if (handle.IsAllocated)
-				handle.Free();
 		}
 
 		if (size is 0)

@@ -9,30 +9,25 @@ namespace WebP.Net;
 
 public readonly struct WebPInfo
 {
-	public static WebPInfo GetFrom(byte[] webP)
+	public static WebPInfo GetFrom(Span<byte> webp)
 	{
-		var handle = GCHandle.Alloc(webP, GCHandleType.Pinned);
+		var features = new WebPBitstreamFeatures();
 
-		try
+		Vp8StatusCode status;
+		unsafe
 		{
-			var features = new WebPBitstreamFeatures();
-			var status   = Native.WebPGetFeatures(handle.AddrOfPinnedObject(), (UIntPtr)webP.Length, ref features);
-			if (status is not Vp8StatusCode.Ok)
-				throw new ExternalException(status.ToString());
-			return new WebPInfo(features);
+			fixed (byte* p = webp)
+			{
+				status = Native.WebPGetFeatures((IntPtr)p, (UIntPtr)webp.Length, ref features);
+			}
 		}
-		catch (Exception ex)
-		{
-			throw ThrowHelper.Create(ex);
-		}
-		finally
-		{
-			if (handle.IsAllocated)
-				handle.Free();
-		}
+		if (status is not Vp8StatusCode.Ok)
+			throw new ExternalException(status.ToString());
+		
+		return new WebPInfo(features);
 	}
 
-	internal WebPInfo(WebPBitstreamFeatures features)
+	private WebPInfo(WebPBitstreamFeatures features)
 	{
 		Width      = features.Width;
 		Height     = features.Height;

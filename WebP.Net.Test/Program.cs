@@ -1,16 +1,22 @@
-
 using System;
 using System.Drawing.Imaging;
 using System.IO;
-using WebP.Net;
+using System.Runtime.Versioning;
 
-Console.WriteLine("Hello, World!");
+namespace WebP.Net.Test;
 
-Console.WriteLine("libwebp version: {0}", WebPLibrary.GetVersion().ToString());
+internal static class Program
+{
+	[SupportedOSPlatform("windows")]
+	public static void Main(string[] args)
+	{
+		Console.WriteLine("libwebp version: {0}", WebPLibrary.GetVersion().ToString());
 
-var bitmap = WebPDecoder.Decode(File.ReadAllBytes("sample.webp"));
+		var bitmap = WebPDecoder.Decode(File.ReadAllBytes("sample.webp"));
 
-bitmap.Save("sample.png", ImageFormat.Png);
+		bitmap.Save("sample.png", ImageFormat.Png);
 
-var bytes = WebPEncoder.EncodeLossless(bitmap);
-File.WriteAllBytes("after.webp", bytes);
+		using var webp = WebPEncoder.EncodeLossless(bitmap);
+		File.WriteAllBytes("after.webp", webp.AsSpan().ToArray());
+	}
+}
