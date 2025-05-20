@@ -14,13 +14,13 @@ This library provides a simple encoder and decoder for webp.
 In your csproj :
 
 ```xml
-<PackageReference Include="WebP_Net" Version="1.1.1" />
+<PackageReference Include="WebP_Net" Version="2.0.0" />
 ```
 
 Or, if you using .net cli :
 
 ```
-dotnet add package WebP_Net --version 1.1.1
+dotnet add package WebP_Net --version 2.0.0
 ```
 
 ### Encode / Decode
@@ -29,33 +29,10 @@ dotnet add package WebP_Net --version 1.1.1
 using System.Drawing;
 using WebP.Net;
 
-static byte[] EncodeLossy(Bitmap bitmap, float quality)
-{
-    using var webp = new WebPObject(bitmap);
-    return webp.GetWebPLossy(quality);
-}
-static byte[] EncodeLossless(Bitmap bitmap)
-{
-    using var webp = new WebPObject(bitmap);
-    return webp.GetLossless();
-}
-static Image DecodeWebP(byte[] webP)
-{
-    using var webp = new WebPObject(webP);
-    return webp.GetImage();
-}
-```
+var bitmap = WebPDecoder.Decode(File.ReadAllBytes("..."));
 
-### Get info
-
-```c#
-using WebP.Net;
-
-static WebPInfo GetInfo(byte[] webP)
-{
-    using var webp = new WebPObject(webP);
-    return webP.GetInfo();
-}
+using var webp = WebPEncoder.EncodeLossless(bitmap);
+File.WriteAllBytes("...", webp.AsSpan().ToArray());
 ```
 
 ### Get version
@@ -63,12 +40,5 @@ static WebPInfo GetInfo(byte[] webP)
 ```c#
 using WebP.Net;
 
-static WebPVersion GetVersion()
-{
-    return WebPObject.GetVersion(); // get version of libwebp
-}
-static string GetVersionAsString()
-{
-    return WebPObject.GetVersion().ToString(); // Major.Minor.Revision
-}
+var version = WebPLibrary.GetVersion();
 ```
