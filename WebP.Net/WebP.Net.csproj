@@ -10,7 +10,7 @@
 
     <!-- Versioning -->
     <PropertyGroup>
-        <DeclaredVersion>1.1.1</DeclaredVersion>
+        <DeclaredVersion>2.0.0</DeclaredVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
 
         <AssemblyVersion>$(DeclaredVersion)</AssemblyVersion>
