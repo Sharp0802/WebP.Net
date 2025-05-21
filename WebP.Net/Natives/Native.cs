@@ -9,7 +9,7 @@ namespace WebP.Net.Natives;
 [SuppressUnmanagedCodeSecurity]
 public static class Native
 {
-	private const string DllPath           = "webp";
+	private const string DllPath           = "libwebp.dll";
 	private const int    DecoderABIVersion = 0x0209;
 
 	[DllImport(DllPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPConfigInitInternal")]
