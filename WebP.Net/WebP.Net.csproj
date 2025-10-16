@@ -3,6 +3,7 @@
     <PropertyGroup>
         <OutputType>Library</OutputType>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <RuntimeIdentifiers>win-x86;win-x64;linux-x86;linux-x64</RuntimeIdentifiers>
         <Nullable>enable</Nullable>
         <LangVersion>13</LangVersion>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -10,7 +11,7 @@
 
     <!-- Versioning -->
     <PropertyGroup>
-        <DeclaredVersion>2.0.0</DeclaredVersion>
+        <DeclaredVersion>2.0.1</DeclaredVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
 
         <AssemblyVersion>$(DeclaredVersion)</AssemblyVersion>
@@ -37,5 +38,5 @@
         <PackageReference Include="System.Drawing.Common" Version="7.0.0"/>
         <PackageReference Include="System.Memory" Version="4.6.3" />
     </ItemGroup>
-
+ 
 </Project>
