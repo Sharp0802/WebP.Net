@@ -14,7 +14,7 @@ internal static class Native
 
 
 	[DllImport(DllPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPGetFeaturesInternal")]
-	public static extern Vp8StatusCode WebPGetFeaturesInternal(
+	private static extern Vp8StatusCode WebPGetFeaturesInternal(
 		[In] IntPtr               rawWebP,
 		UIntPtr                   dataSize,
 		ref WebPBitstreamFeatures features,
