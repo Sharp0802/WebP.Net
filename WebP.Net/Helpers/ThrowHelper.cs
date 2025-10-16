@@ -10,12 +10,7 @@ internal static class ThrowHelper
 		Exception                 inner,
 		[CallerMemberName] string caller = "Unknown")
 	{
-		return new Exception($"{inner.Message}\nIn {caller}", inner);
-	}
-
-	public static Exception UnknownPlatform()
-	{
-		return new PlatformNotSupportedException("Unknown platform detected. Platform must be x86 or x64");
+		return new Exception($"[from {caller}] {inner.Message}", inner);
 	}
 
 	public static Exception ContainsNoData([CallerMemberName] string caller = "Unknown")
