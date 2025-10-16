@@ -4,7 +4,7 @@ namespace WebP.Net;
 
 public readonly struct WebPVersion
 {
-	public WebPVersion(uint major, uint minor, uint revision)
+	internal WebPVersion(uint major, uint minor, uint revision)
 	{
 		Major    = major;
 		Minor    = minor;

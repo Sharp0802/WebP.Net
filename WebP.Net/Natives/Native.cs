@@ -7,7 +7,7 @@ using WebP.Net.Natives.Structs;
 namespace WebP.Net.Natives;
 
 [SuppressUnmanagedCodeSecurity]
-public static class Native
+internal static class Native
 {
 	private const string DllPath           = "libwebp.dll";
 	private const int    DecoderABIVersion = 0x0209;
