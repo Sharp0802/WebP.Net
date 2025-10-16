@@ -23,6 +23,19 @@ public static class WebPEncoder
 		return EncodeBase(image, 100);
 	}
 
+	private static bool HasAlpha(PixelFormat format)
+	{
+		return format switch
+		{
+			PixelFormat.Format16bppRgb555    => false,
+			PixelFormat.Format16bppRgb565    => false,
+			PixelFormat.Format24bppRgb       => false,
+			PixelFormat.Format32bppRgb       => false,
+			PixelFormat.Format16bppGrayScale => false,
+			_                                => true
+		};
+	}
+
 	private static WebPImage EncodeBase(Image image, int quality)
 	{
 		if (image is null)
@@ -31,8 +44,10 @@ public static class WebPEncoder
 			throw ThrowHelper.ContainsNoData();
 		if (image.Width > MaxSize || image.Height > MaxSize)
 			throw ThrowHelper.SizeTooBig();
-
-		using var bmp = new Bitmap(image.Width, image.Height, image.PixelFormat);
+		
+		var format = HasAlpha(image.PixelFormat) ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb;
+			
+		using var bmp     = new Bitmap(image.Width, image.Height, format);
 		using var graphic = Graphics.FromImage(bmp);
 		graphic.DrawImage(image, new Rectangle(0, 0, bmp.Width, bmp.Height));
 		
@@ -40,11 +55,23 @@ public static class WebPEncoder
 
 		try
 		{
-			data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
+			data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, format);
 
-			var size = quality >= 100
-				? Native.WebPEncodeLosslessBGRA(data.Scan0, data.Width, data.Height, data.Stride, out var ptr)
-				: Native.WebPEncodeBGRA(data.Scan0, data.Width, data.Height, data.Stride, quality, out ptr);
+			int    size;
+			IntPtr ptr;
+			if (HasAlpha(format))
+			{
+				size = quality >= 100
+					? Native.WebPEncodeLosslessBGRA(data.Scan0, data.Width, data.Height, data.Stride, out ptr)
+					: Native.WebPEncodeBGRA(data.Scan0, data.Width, data.Height, data.Stride, quality, out ptr);
+			}
+			else
+			{
+				size = quality >= 100
+					? Native.WebPEncodeLosslessBGR(data.Scan0, data.Width, data.Height, data.Stride, out ptr)
+					: Native.WebPEncodeBGR(data.Scan0, data.Width, data.Height, data.Stride, quality, out ptr);
+			}
+
 			if (size is 0)
 				throw ThrowHelper.CannotEncodeByUnknown();
 

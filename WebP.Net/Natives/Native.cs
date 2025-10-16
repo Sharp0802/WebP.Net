@@ -44,6 +44,23 @@ internal static class Native
 		int         outputBufferSize,
 		int         outputStride);
 
+	[DllImport(DllPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPEncodeBGR")]
+	public static extern int WebPEncodeBGR(
+		[In] IntPtr bgr,
+		int         width,
+		int         height,
+		int         stride,
+		float       qualityFactor,
+		out IntPtr  output);
+
+	[DllImport(DllPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPEncodeLosslessBGR")]
+	public static extern int WebPEncodeLosslessBGR(
+		[In] IntPtr bgr,
+		int         width,
+		int         height,
+		int         stride,
+		out IntPtr  output);
+
 	[DllImport(DllPath, CallingConvention = CallingConvention.Cdecl, EntryPoint = "WebPEncodeBGRA")]
 	public static extern int WebPEncodeBGRA(
 		[In] IntPtr bgra,
