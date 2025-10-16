@@ -14,13 +14,13 @@ This library provides a simple encoder and decoder for webp.
 In your csproj :
 
 ```xml
-<PackageReference Include="WebP_Net" Version="2.0.0" />
+<PackageReference Include="WebP_Net" Version="2.0.2" />
 ```
 
 Or, if you using .net cli :
 
 ```
-dotnet add package WebP_Net --version 2.0.0
+dotnet add package WebP_Net --version 2.0.2
 ```
 
 ### Encode / Decode

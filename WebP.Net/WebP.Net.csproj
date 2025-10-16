@@ -11,7 +11,7 @@
 
     <!-- Versioning -->
     <PropertyGroup>
-        <DeclaredVersion>2.0.1</DeclaredVersion>
+        <DeclaredVersion>2.0.2</DeclaredVersion>
         <PackageReadmeFile>README.md</PackageReadmeFile>
 
         <AssemblyVersion>$(DeclaredVersion)</AssemblyVersion>
