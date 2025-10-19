@@ -14,7 +14,7 @@ This library provides a simple encoder and decoder for webp.
 In your csproj :
 
 ```xml
-<PackageReference Include="WebP_Net" Version="2.0.2" />
+<PackageReference Include="WebP_Net" Version="2.0.3" />
 ```
 
 Or, if you using .net cli :
